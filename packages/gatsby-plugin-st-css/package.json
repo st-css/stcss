@@ -1,0 +1,32 @@
+{
+  "name": "@st-css/gatsby-plugin-st-css",
+  "version": "0.0.1",
+  "description": "A plugin that provides support for the St Css styling library.",
+  "main": "index.js",
+  "peerDependencies": {
+    "@st-css/core": "*",
+    "gatsby": "^4.14.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "devDependencies": {
+    "@st-css/core": "*",
+    "gatsby": "^4.14.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "author": "Andrew Smiley <jayalfredprufrock@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/st-css/st-css",
+    "directory": "packages/gatsby-plugin-st-css"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "st-css",
+    "css-in-js",
+    "styled"
+  ]
+}

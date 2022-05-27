@@ -1,0 +1,50 @@
+{
+  "name": "@st-css/components",
+  "version": "0.0.1",
+  "main": "dist/components.umd.js",
+  "module": "dist/components.es.js",
+  "types": "dist/components.es.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "test": "vitest run",
+    "test:ui": "vitest --ui --coverage"
+  },
+  "peerDependencies": {
+    "@st-css/core": "*",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "devDependencies": {
+    "@st-css/core": "*",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.3",
+    "@vitejs/plugin-react": "^1.3.2",
+    "@vitest/ui": "^0.12.6",
+    "c8": "^7.11.2",
+    "csstype": "^3.0.11",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "vitest": "^0.12.6"
+  },
+  "author": "Andrew Smiley <jayalfredprufrock@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/st-css/st-css",
+    "directory": "packages/components"
+  },
+  "keywords": [
+    "st-css",
+    "css-in-js",
+    "styled",
+    "react components",
+    "design system"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "st-css-gatsby-example",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "gatsby": "^4.14.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "@st-css/gatsby-plugin-st-css": "*"
+  },
+  "scripts": {
+    "start": "gatsby develop",
+    "build": "gatsby clean && gatsby build",
+    "preview": "gatsby build && gatsby serve"
+  },
+  "author": "",
+  "license": "ISC"
+}
