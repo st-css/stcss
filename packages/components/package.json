@@ -11,7 +11,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:ui": "vitest --ui --coverage"
   },
   "peerDependencies": {
