@@ -45,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to Chromatic
-        if: contains(fromJSON(steps.changesets.outputs.publishedPackages).*.name, '@st-css/components')
+        if: steps.changesets.outputs.published && contains(fromJSON(steps.changesets.outputs.publishedPackages).*.name, '@st-css/components')
         uses: chromaui/action@v1
         with:
             projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
