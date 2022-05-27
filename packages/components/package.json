@@ -46,5 +46,8 @@
     "styled",
     "react components",
     "design system"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

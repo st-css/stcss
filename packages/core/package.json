@@ -42,5 +42,8 @@
     "st-css",
     "css-in-js",
     "styled"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
