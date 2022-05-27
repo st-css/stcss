@@ -1,6 +1,6 @@
 {
   "name": "@st-css/gatsby-plugin-st-css",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A plugin that provides support for the St Css styling library.",
   "main": "index.js",
   "peerDependencies": {
