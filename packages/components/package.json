@@ -1,6 +1,6 @@
 {
   "name": "@st-css/components",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/components.umd.js",
   "module": "dist/components.es.js",
   "types": "dist/components.es.d.ts",

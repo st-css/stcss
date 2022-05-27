@@ -1,5 +1,13 @@
 # @st-css/components
 
+## 0.0.3
+
+### Patch Changes
+
+- 3b05397: a public publish config
+- Updated dependencies [3b05397]
+  - @st-css/core@0.0.3
+
 ## 0.0.2
 
 ### Patch Changes
