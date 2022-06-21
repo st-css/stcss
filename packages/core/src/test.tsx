@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { canonizeStCss, StProvider } from './context';
 import { st } from './st';
@@ -26,8 +26,14 @@ const Title = st<{ role: 'primary' | 'secondary' }>()({
     css: {
         color: ['green', 'red'],
     },
-    render: ({ C, attrs }) => {
-        return <C {...attrs} />;
+    Component: ({ C, attrs }) => {
+        const [enabled, setEnabled] = useState(false);
+        const onClick = () => setEnabled((enabled) => !enabled);
+        return (
+            <C {...attrs} onClick={onClick}>
+                {enabled ? 'OFF' : 'ON'}
+            </C>
+        );
     },
 });
 

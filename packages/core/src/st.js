@@ -4,7 +4,8 @@ import { mergeResponsiveObjs, mergeStObjs, resolveDynamicValue, resolveStStyle }
 
 // this function is intentially NOT written in typescript since the typings
 // quickly took a relatively straight forward function and made it very difficult
-// to follow. Ambient typings are provided in st.d.ts and unit tests confirm behavior
+// to follow. Ambient typings are provided in st.d.ts and unit tests (written in typescript)
+// should generally catch any bad typings
 
 export const st = () => {
     return function st(options) {

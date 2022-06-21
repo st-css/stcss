@@ -1,3 +1,4 @@
+import React from 'react';
 import type { MaybeArray, MergeDefaults, Obj, Optional, StComponentProps, StCssProps, StDynamicValue, StObj, StResponsiveObj, StStyle } from './types';
 
 //consider ditching default props generic and merge defualts stuff...
@@ -17,7 +18,7 @@ export type StCreateOptions<
     forwardAttrs?: FA[];
     forwardCss?: FS[];
     css?: MaybeArray<StStyle<MergeDefaults<P, keyof DP>>>;
-    render?: (props: MergeDefaults<P, keyof DP> & { C: I; attrs: JSX.IntrinsicElements[I] & { children?: React.ReactNode } }) => React.ReactNode;
+    Component?: React.FC<MergeDefaults<P, keyof DP> & { C: I; attrs: JSX.IntrinsicElements[I] & { children?: React.ReactNode } }>;
 };
 
 // I = intrinsic element type
