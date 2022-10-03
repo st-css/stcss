@@ -23,7 +23,7 @@ export const useMediaQueries = <Q extends Record<string, string>>(queries: Q): R
             const [name] = Object.entries(queries).find(([_, media]) => media === e.media) || [];
             if (name) {
                 // match media fires for any CHANGES, so will fire once for the breakpoint we
-                // are leaving and one for the breakpoint we are entering. We add a little timeout
+                // are leaving and once for the breakpoint we are entering. We add a little timeout
                 // here, gathering together all the changes in a ref, so we only update once when
                 // transitioning between breakpoints
                 matchesRef.current = {

@@ -1,5 +1,5 @@
-import { st, StCreateOptions } from '../st';
-import { renderAtBp, testAtBps } from './utils';
+import { StCreateOptions } from '../st';
+import { renderAtBp, st, testAtBps } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const types: [string, StCreateOptions<'h1'>][] = [
@@ -7,7 +7,7 @@ const types: [string, StCreateOptions<'h1'>][] = [
     [
         'inline components',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { el: 'h1', render: ({ C, attrs, children, ..._props }: any) => <C {...attrs}>{children}</C> },
+        { el: 'h1', Component: ({ C, attrs, children }: any) => <C {...attrs}>{children}</C> },
     ],
 ];
 

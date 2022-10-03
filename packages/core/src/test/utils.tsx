@@ -3,9 +3,9 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import React from 'react';
-import { canonizeStCss, StProvider } from '../context';
+import { canonizeStCss } from '../context';
 
-const stCss = canonizeStCss({
+const { st, config, StProvider } = canonizeStCss({
     mediaQueries: {
         mobile: '(max-width: 719px)',
         tablet: '(min-width: 720px) and (max-width: 991px)',
@@ -20,12 +20,12 @@ export const renderAtBp = (bp: string, el: React.ReactElement) => {
         return {
             addEventListener: () => {},
             removeEventListener: () => {},
-            matches: mq === (stCss.mediaQueries as any)[bp],
+            matches: mq === (config.mediaQueries as any)[bp],
         };
     });
 
     const { container } = render(el, {
-        wrapper: ({ children }) => <StProvider value={stCss}>{children}</StProvider>,
+        wrapper: ({ children }) => <StProvider>{children}</StProvider>,
     });
 
     // JSDOM uses CSSOM which cannot parse CSS media queries (and just ignores them)
@@ -40,9 +40,11 @@ export const renderAtBp = (bp: string, el: React.ReactElement) => {
 };
 
 export const testAtBps = (el: React.ReactElement, bpTest: (el: ChildNode | null, bpIndex: number) => void) => {
-    stCss.breakpoints.forEach((bp, i) => {
+    config.breakpoints.forEach((bp, i) => {
         test(`at ${bp} breakpoint`, () => {
             bpTest(renderAtBp(bp, el), i);
         });
     });
 };
+
+export { st, config };

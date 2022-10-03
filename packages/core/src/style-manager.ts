@@ -1,5 +1,9 @@
-import { StConfig } from './context';
 import { StResponsiveObj } from './types';
+
+export interface StyleManagerConfig {
+    mediaQueries: Record<string, string>;
+    breakpoints: string[];
+}
 
 export class StyleManager {
     protected readonly cache: Map<string, string> = new Map();
@@ -7,7 +11,8 @@ export class StyleManager {
     protected readonly sheets: Map<string, CSSStyleSheet | CSSMediaRule> = new Map();
     protected readonly styleTag?: HTMLStyleElement;
 
-    constructor(readonly config: StConfig) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    constructor(readonly config: StyleManagerConfig) {
         Object.entries({ __global: '', ...this.config.mediaQueries }).forEach(([bp, mq]) => {
             this.rules.set(bp, []);
             if (typeof document !== 'undefined') {

@@ -1,14 +1,16 @@
-import { StrictMode, useState } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { canonizeStCss, StProvider } from './context';
-import { st } from './st';
+import { canonizeStCss } from './context';
 
-const stCss = canonizeStCss({
+const { st, StProvider } = canonizeStCss({
     mediaQueries: {
         mobile: '(max-width: 719px)',
         tablet: '(min-width: 720px) and (max-width: 991px)',
-        laptop: '(min-width: 992px) and (max-width: 1199px)',
-        desktop: '(min-width: 1200px)',
+        laptop: 'screen and (min-width: 992px) and (max-width: 1199px)',
+        desktop: 'screen and (min-width: 1200px)',
+        portrait: 'screen and (orientation:portrait)',
+        landscape: 'screen and (orientation:portrait)',
+        print: 'print',
     },
     breakpoints: ['mobile', 'tablet', 'laptop', 'desktop'],
 });
@@ -22,18 +24,6 @@ const Title = st<{ role: 'primary' | 'secondary' }>()({
     forwardAttrs: ['title'],
     defaultAttrs: {
         title: 'testing title',
-    },
-    css: {
-        color: ['green', 'red'],
-    },
-    Component: ({ C, attrs }) => {
-        const [enabled, setEnabled] = useState(false);
-        const onClick = () => setEnabled((enabled) => !enabled);
-        return (
-            <C {...attrs} onClick={onClick}>
-                {enabled ? 'OFF' : 'ON'}
-            </C>
-        );
     },
 });
 
@@ -54,7 +44,7 @@ const Text = Subtitle.extend()({
 
 root.render(
     <StrictMode>
-        <StProvider value={stCss}>
+        <StProvider>
             <Text attrs={{ title: ['text-mobile', 'text'] }}>I am text</Text>
         </StProvider>
     </StrictMode>
