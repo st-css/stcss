@@ -13,7 +13,7 @@
     "build-storybook": "storybook build"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,json}": "eslint --fix"
+    "*.{ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
