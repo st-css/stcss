@@ -15,7 +15,7 @@ const stCss = canonizeStCss({
     breakpoints: ['mobile', 'tablet', 'laptop', 'desktop'],
 });
 
-export const renderAtBp = (bp: string, el: React.ReactElement) => {
+export const renderAtBp = (bp: string, el: React.ReactElement, options?: { debug?: boolean }) => {
     window.matchMedia = vi.fn().mockImplementation((mq) => {
         return {
             addEventListener: () => {},
@@ -24,7 +24,7 @@ export const renderAtBp = (bp: string, el: React.ReactElement) => {
         };
     });
 
-    const { container } = render(el, {
+    const { container, debug } = render(el, {
         wrapper: ({ children }) => <StProvider value={stCss}>{children}</StProvider>,
     });
 
@@ -35,6 +35,14 @@ export const renderAtBp = (bp: string, el: React.ReactElement) => {
     // per test (jsdom instance)
     const style = document.getElementById(`st-${bp}`) as HTMLStyleElement;
     style.innerHTML = style.sheet?.cssRules[0]?.cssText.replace(/@media (?:[^{]*){([\s\S]*)}/, '$1') || '';
+
+    if (options?.debug) {
+        console.log('='.repeat(50));
+        console.log(stCss.styleManager.toString());
+        console.log('~'.repeat(50));
+        debug(container);
+        console.log('='.repeat(50));
+    }
 
     return container.firstChild;
 };

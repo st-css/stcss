@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkst_css_gatsby_example=self.webpackChunkst_css_gatsby_example||[]).push([[691],{4786:function(s,e,t){t.r(e);var r=t(8371),n=t(2322),c=(0,r.st)()({el:"h1",css:{color:["green","red"]},render:function(s){var e=s.C,t=s.attrs;return(0,n.jsx)(e,Object.assign({},t))}});e.default=function(){return(0,n.jsx)(c,{children:"Test"})}}}]);
-//# sourceMappingURL=component---src-pages-index-tsx-cbf4d2d76b8597cf515a.js.map

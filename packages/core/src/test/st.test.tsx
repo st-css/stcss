@@ -117,7 +117,7 @@ describe('st', () => {
                     <Title title={['forward-mobile', null, 'forward-laptop', null]} attrs={{ title: [null, null, 'attrs-laptop-desktop'] }} />,
                     (el, i) => {
                         expect(el).toHaveAttribute('title', ['forward-mobile', 'default-tablet', 'forward-laptop', 'attrs-laptop-desktop'][i]);
-                    }
+                    },
                 );
             });
 
@@ -237,8 +237,11 @@ describe('st', () => {
                 });
 
                 const el = renderAtBp('mobile', <Title color="blue" css={{ color: 'yellow', display: 'block' }} />);
+
+                // TODO: explore why color is getting converted to RGB in this particular
+                // test case and no others...very strange
                 expect(el).toHaveStyle({
-                    color: 'blue',
+                    color: 'rgb(0, 0, 255)',
                     display: 'block',
                     opacity: 0,
                 });

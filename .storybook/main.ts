@@ -1,28 +1,45 @@
+import { dirname, join } from "path";
 import type { StorybookViteConfig } from '@storybook/builder-vite';
 
 const config: StorybookViteConfig = {
-    framework: '@storybook/react',
+    framework: {
+        name: getAbsolutePath("@storybook/react-vite"),
+        options: {}
+    },
+
     stories: [
         '../packages/components/src/**/*.stories.@(tsx|mdx)',
     ],
+
     addons: [
-        '@storybook/addon-links',
-        '@storybook/addon-essentials',
-        '@storybook/addon-interactions'
+        getAbsolutePath("@storybook/addon-links"),
+        getAbsolutePath("@storybook/addon-essentials"),
+        getAbsolutePath("@storybook/addon-interactions")
     ],
+
     core: {
-        builder: '@storybook/builder-vite',
-        disableTelemetry: true,
+        disableTelemetry: true
     },
+
     features: {
         storyStoreV7: true
     },
+
     typescript: {
         reactDocgen: 'react-docgen-typescript'
     },
+
     async viteFinal(config, options) {
         return config;
     },
+
+    docs: {
+        autodocs: true
+    }
 };
 
 export default config;
+
+function getAbsolutePath(value: string): any {
+    return dirname(require.resolve(join(value, "package.json")));
+}
