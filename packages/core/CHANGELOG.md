@@ -1,5 +1,12 @@
 # @st-css/core
 
+## 0.0.4
+
+### Patch Changes
+
+- 47595ee: fix: vite-dts building
+- 362c512: upgrade to gatsby 5
+
 ## 0.0.3
 
 ### Patch Changes
