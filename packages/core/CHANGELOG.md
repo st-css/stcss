@@ -1,5 +1,11 @@
 # @st-css/core
 
+## 0.0.5
+
+### Patch Changes
+
+- 1e7ca8c: fix: specify correct types file
+
 ## 0.0.4
 
 ### Patch Changes
