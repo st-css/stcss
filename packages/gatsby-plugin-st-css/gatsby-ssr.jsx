@@ -5,14 +5,14 @@ const { StProvider } = require('@st-css/core');
 
 //import type { GatsbySSR } from 'gatsby';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { getStCss } = require('./get-st-css');
+const { stCss } = require('./src/index');
 
-exports.wrapRootElement = ({ element }, { plugins: _plugins, ...stCssOrConfig }) => {
-    return <StProvider value={getStCss(stCssOrConfig)}>{element}</StProvider>;
+exports.wrapRootElement = ({ element }) => {
+    return <StProvider value={stCss}>{element}</StProvider>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-exports.onRenderBody = ({ setHeadComponents }, { plugins: _plugins, ...stCssOrConfig }) => {
-    const { styleManager } = getStCss(stCssOrConfig);
+exports.onRenderBody = ({ setHeadComponents }) => {
+    const { styleManager } = stCss;
     setHeadComponents([<style key="st-css" dangerouslySetInnerHTML={{ __html: styleManager.toString() }} />]);
 };
