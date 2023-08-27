@@ -3,6 +3,11 @@
   "version": "0.0.4",
   "description": "A plugin that provides support for the St Css styling library.",
   "main": "index.js",
+  "files": [
+    "./src/index.ts",
+    "./gatsby-browser.tsx",
+    "./gatsby-ssr.tsx"
+  ],
   "peerDependencies": {
     "@st-css/core": "*",
     "gatsby": "^5.11.0",

@@ -1,6 +1,6 @@
 import { canonizeStCss } from '@st-css/core';
 
-const stCss = canonizeStCss({
+export const stCss = canonizeStCss({
     mediaQueries: {
         mobile: '(max-width: 719px)',
         tablet: '(min-width: 720px) and (max-width: 991px)',
@@ -9,5 +9,3 @@ const stCss = canonizeStCss({
     },
     breakpoints: ['mobile', 'tablet', 'laptop', 'desktop'],
 });
-
-export default stCss;

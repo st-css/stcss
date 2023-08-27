@@ -57,5 +57,5 @@ root.render(
         <StProvider value={stCss}>
             <Text attrs={{ title: ['text-mobile', 'text'] }}>I am text</Text>
         </StProvider>
-    </StrictMode>
+    </StrictMode>,
 );

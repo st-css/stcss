@@ -36,7 +36,7 @@ export const st = () => {
 
             const mergedCss = mergeResponsiveObjs(
                 [...defaultCssArray, css, forwardedCss].map((style) => resolveStStyle(style, mergedProps)),
-                breakpoints.length
+                breakpoints.length,
             );
             const cssClassNames = styleManager.getClassesForStyle(mergedCss);
             const classNames = [...classNameArray.map((c) => resolveDynamicValue(c, mergedProps)), className, ...cssClassNames].filter(Boolean);

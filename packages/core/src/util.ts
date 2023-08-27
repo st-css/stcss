@@ -32,7 +32,7 @@ export const transformValue = (prop: string, val: string, transformers: Transfor
                         tProp,
                         tVal,
                         transformers.filter((t) => t !== transformer),
-                        result
+                        result,
                     );
                 });
                 break;
@@ -54,7 +54,7 @@ export const resolveStStyle = <A>(
     args?: A,
     transformers?: Transformer[],
     sel = '?',
-    result: Record<string, string | string[]> = {}
+    result: Record<string, string | string[]> = {},
 ): Record<string, MaybeArray<string | number>> => {
     if (style) {
         objForEach(style, args, ([key, val]) => {
@@ -76,15 +76,18 @@ export const resolveStStyle = <A>(
                 let transformedValue: Record<string, string | string[]>;
                 if (Array.isArray(val)) {
                     const transformedValues = val.map((v) => transformValue(key, v, transformers));
-                    transformedValue = transformedValues.reduce((obj, v) => {
-                        Object.entries(v).forEach(([tProp, tVal]) => {
-                            if (!obj[tProp]) {
-                                obj[tProp] = [];
-                            }
-                            obj[tProp].push(tVal);
-                        });
-                        return obj;
-                    }, {} as Record<string, string[]>);
+                    transformedValue = transformedValues.reduce(
+                        (obj, v) => {
+                            Object.entries(v).forEach(([tProp, tVal]) => {
+                                if (!obj[tProp]) {
+                                    obj[tProp] = [];
+                                }
+                                obj[tProp].push(tVal);
+                            });
+                            return obj;
+                        },
+                        {} as Record<string, string[]>,
+                    );
                 } else {
                     transformedValue = transformValue(key, val, transformers);
                 }
