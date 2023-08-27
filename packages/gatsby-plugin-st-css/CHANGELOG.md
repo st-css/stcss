@@ -1,5 +1,13 @@
 # @st-css/gatsby-plugin-st-css
 
+## 0.0.5
+
+### Patch Changes
+
+- dd799bb: fix: export things properly
+- Updated dependencies [dd799bb]
+  - @st-css/core@0.0.7
+
 ## 0.0.4
 
 ### Patch Changes
