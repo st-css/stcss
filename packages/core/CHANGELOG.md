@@ -1,5 +1,11 @@
 # @st-css/core
 
+## 0.0.6
+
+### Patch Changes
+
+- e8806c6: fix: export st function type
+
 ## 0.0.5
 
 ### Patch Changes
