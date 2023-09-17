@@ -1,6 +1,6 @@
 {
   "name": "@st-css/core",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "dist/core.umd.js",
   "module": "dist/core.mjs",
   "types": "dist/core.umd.d.ts",
