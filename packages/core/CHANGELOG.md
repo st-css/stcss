@@ -1,5 +1,11 @@
 # @st-css/core
 
+## 0.0.8
+
+### Patch Changes
+
+- a6633ad: feat: renaming inline component props to be more clear
+
 ## 0.0.7
 
 ### Patch Changes
