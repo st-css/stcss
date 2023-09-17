@@ -292,13 +292,13 @@ const ToggleButton = st()({
         background: 'transparent',
         border: '1px solid black',
     },
-    Component: ({ C, attrs }) => {
+    render: ({ El, attrs }) => {
         const [enabled, setEnabled] = useState(false);
         const onClick = () => setEnabled((enabled) => !enabled);
         return (
-            <C {...attrs} onClick={onClick}>
+            <El {...attrs} onClick={onClick}>
                 {enabled ? 'Enabled' : 'Disabled'}
-            </C>
+            </El>
         );
     },
 });
@@ -306,7 +306,7 @@ const ToggleButton = st()({
 ```
 
 This technique can also be used to style 3rd-party components. The only requirement is that
-the component being styled accepts the "className" prop. Since the `C` wrapper is not used
+the component being styled accepts the "className" prop. Since the `El` wrapper is not used
 the `as` prop will have no effect (unless of course the 3rd-party component respects that
 prop as well).
 
@@ -316,7 +316,7 @@ const StyledSlider = st<ThirdPartySliderProps>()({
     css: {
         width: '800px'
     },
-    Component: ({ attrs }) => <ThirdPartySlider {...attrs} />
+    render: ({ attrs }) => <ThirdPartySlider {...attrs} />
 })
 ```
 
