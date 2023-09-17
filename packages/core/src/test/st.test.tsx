@@ -7,7 +7,7 @@ const types: [string, StCreateOptions<'h1'>][] = [
     [
         'inline components',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        { el: 'h1', render: ({ C, attrs, children, ..._props }: any) => <C {...attrs}>{children}</C> },
+        { el: 'h1', render: ({ El, attrs, children, ..._props }: any) => <El {...attrs}>{children}</El> },
     ],
 ];
 

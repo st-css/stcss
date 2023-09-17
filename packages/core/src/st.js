@@ -3,8 +3,8 @@ import { useSt } from './hooks';
 import { mergeResponsiveObjs, mergeStObjs, resolveDynamicValue, resolveStStyle } from './util';
 
 // this function is intentially NOT written in typescript since the typings
-// quickly took a relatively straight forward function and made it very difficult
-// to follow. Ambient typings are provided in st.d.ts and unit tests (written in typescript)
+// quickly made what would normally be a relatively straight-forward function
+// very difficult to follow. Ambient typings are provided in st.d.ts and unit tests (written in typescript)
 // should generally catch any bad typings
 
 export const st = () => {
@@ -48,7 +48,7 @@ export const st = () => {
                 return createElement(as || el, mergedAttrs, children);
             }
 
-            return render({ C: as || el, attrs: { children, ...mergedAttrs }, ...mergedProps });
+            return render({ El: as || el, attrs: { children, ...mergedAttrs }, ...mergedProps });
         };
 
         St.extend = () => {

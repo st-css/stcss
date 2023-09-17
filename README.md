@@ -387,4 +387,3 @@ a way for independent components to target each other's styles.
 2. make sure mqs are passed to dynamic styles (and fix example)
 3. should dynamic styles be allowed in css prop? would that make typings easier?
 4. global styles / resets
-5. consider renaming "Component" back to "render", and "C" to "El".

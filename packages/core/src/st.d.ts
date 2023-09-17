@@ -18,7 +18,7 @@ export type StCreateOptions<
     forwardAttrs?: FA[];
     forwardCss?: FS[];
     css?: MaybeArray<StStyle<MergeDefaults<P, keyof DP>>>;
-    Component?: React.FC<MergeDefaults<P, keyof DP> & { C: I; attrs: JSX.IntrinsicElements[I] & { children?: React.ReactNode } }>;
+    render?: React.FC<MergeDefaults<P, keyof DP> & { El: I; attrs: JSX.IntrinsicElements[I] & { children?: React.ReactNode } }>;
 };
 
 // I = intrinsic element type
