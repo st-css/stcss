@@ -1,7 +1,7 @@
 import { dirname, join } from "path";
-import type { StorybookViteConfig } from '@storybook/builder-vite';
+import type { StorybookConfig } from '@storybook/react-vite';
 
-const config: StorybookViteConfig = {
+const config: StorybookConfig = {
     framework: {
         name: getAbsolutePath("@storybook/react-vite"),
         options: {}
