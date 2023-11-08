@@ -1,5 +1,11 @@
 # @st-css/core
 
+## 0.0.9
+
+### Patch Changes
+
+- 819ba42: chore: update deps
+
 ## 0.0.8
 
 ### Patch Changes
