@@ -1,5 +1,13 @@
 # @st-css/gatsby-plugin-st-css
 
+## 0.0.6
+
+### Patch Changes
+
+- 819ba42: chore: update deps
+- Updated dependencies [819ba42]
+  - @st-css/core@0.0.9
+
 ## 0.0.5
 
 ### Patch Changes

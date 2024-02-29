@@ -1,5 +1,14 @@
 # stcss-example-gatsby
 
+## 1.0.2
+
+### Patch Changes
+
+- 819ba42: chore: update deps
+- Updated dependencies [819ba42]
+  - @st-css/core@0.0.9
+  - @st-css/gatsby-plugin-st-css@0.0.6
+
 ## 1.0.1
 
 ### Patch Changes
