@@ -18,7 +18,7 @@ describe('resolveStStyle', () => {
                 color: primary,
                 display: show ? 'block' : 'none',
             }),
-            { primary: 'green', show: true }
+            { primary: 'green', show: true },
         );
         expect(style).toEqual({
             '?|color': 'green',
@@ -32,7 +32,7 @@ describe('resolveStStyle', () => {
                 color: ({ primary }) => primary,
                 display: ({ show }) => (show ? 'block' : 'none'),
             },
-            { primary: 'green', show: true }
+            { primary: 'green', show: true },
         );
         expect(style).toEqual({
             '?|color': 'green',
@@ -46,7 +46,7 @@ describe('resolveStStyle', () => {
                 color: ({ primary }) => primary,
                 display: show ? 'block' : 'none',
             }),
-            { primary: 'green', show: true }
+            { primary: 'green', show: true },
         );
         expect(style).toEqual({
             '?|color': 'green',
@@ -167,7 +167,7 @@ describe('resolveStStyle', () => {
                 color: ({ primary }) => [primary, 'gold'],
                 display: show ? ['flex', 'block'] : 'none',
             }),
-            { primary: 'green', show: true }
+            { primary: 'green', show: true },
         );
         expect(style).toEqual({
             '?|color': ['green', 'gold'],

@@ -1,6 +1,7 @@
 {
   "name": "@st-css/components",
   "version": "0.0.3",
+  "type": "module",
   "main": "dist/components.umd.js",
   "module": "dist/components.es.js",
   "types": "dist/components.es.d.ts",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@st-css/core": "*",
+    "@st-css/rollup-plugin": "*",
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
   },

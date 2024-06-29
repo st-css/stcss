@@ -1,61 +1,60 @@
 import { StrictMode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { canonizeStCss, StProvider } from './context';
-import { st } from './st';
+import { st } from '.';
 
-const stCss = canonizeStCss({
-    mediaQueries: {
-        mobile: '(max-width: 719px)',
-        tablet: '(min-width: 720px) and (max-width: 991px)',
-        laptop: '(min-width: 992px) and (max-width: 1199px)',
-        desktop: '(min-width: 1200px)',
-    },
-    breakpoints: ['mobile', 'tablet', 'laptop', 'desktop'],
-});
+const container = document.getElementById('root');
+const root = createRoot(container!);
 
-const container = document.getElementById('root') as HTMLElement;
-const root = createRoot(container);
-
-const Title = st<{ role: 'primary' | 'secondary' }>()({
+const Title = st<{ type?: 'primary' | 'secondary' }>()({
     el: 'h1',
-    className: 'title',
+    forwardCss: ['px'],
     forwardAttrs: ['title'],
     defaultAttrs: {
-        title: 'testing title',
+        title: 'test',
     },
     css: {
-        color: ['green', 'red'],
+        color: (p) => (p.type === 'primary' ? 'green' : 'red'),
+        padding: '2px',
     },
-    Component: ({ C, attrs }) => {
-        const [enabled, setEnabled] = useState(false);
-        const onClick = () => setEnabled((enabled) => !enabled);
+    variants: {
+        size: {
+            sm: {
+                fontSize: '12px',
+            },
+            md: {
+                fontSize: '16px',
+            },
+            lg: {
+                fontSize: '24px',
+            },
+        },
+    },
+    defaultVariants: {
+        size: ['md', , 'lg', null],
+    },
+    Component: ({ El, attrs, children }) => {
         return (
-            <C {...attrs} onClick={onClick}>
-                {enabled ? 'OFF' : 'ON'}
-            </C>
+            <El {...attrs}>
+                <em>{children}</em>
+            </El>
         );
     },
 });
 
-const Subtitle = Title.extend()({
-    as: 'h2',
-    className: 'subtitle',
-    defaultAttrs: {
-        title: 'testing subtitle',
-    },
-    defaultProps: {
-        role: 'primary',
-    },
-});
-
-const Text = Subtitle.extend()({
-    as: 'h3',
-});
+const Test = () => {
+    const [on, setOn] = useState(false);
+    return (
+        <div>
+            <Title size={['sm', 'md', 'lg']} title={'3'}>
+                Above
+            </Title>
+            <button onClick={() => setOn(!on)}>{on ? 'OFF' : 'ON'}</button>
+        </div>
+    );
+};
 
 root.render(
     <StrictMode>
-        <StProvider value={stCss}>
-            <Text attrs={{ title: ['text-mobile', 'text'] }}>I am text</Text>
-        </StProvider>
+        <Test />
     </StrictMode>,
 );

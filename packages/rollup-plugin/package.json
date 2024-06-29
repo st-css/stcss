@@ -1,0 +1,32 @@
+{
+  "name": "@st-css/rollup-plugin",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A rollup plugin that provides static CSS extraction",
+  "main": "./src/index.js",
+  "files": [
+    "./src/index.js"
+  ],
+  "peerDependencies": {
+    "@st-css/core": "*",
+    "rollup": "^4.0.0"
+  },
+  "devDependencies": {
+    "@st-css/core": "*",
+    "rollup": "^4.0.0"
+  },
+  "author": "Andrew Smiley <jayalfredprufrock@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/st-css/st-css",
+    "directory": "packages/rollup-plugin"
+  },
+  "keywords": [
+    "st-css",
+    "rollup"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

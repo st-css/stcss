@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "workspaces": [
     "./packages/*",
-    "./examples/*"
+    "./examples/*",
+    "./benchmarks/*"
   ],
   "scripts": {
     "build": "npm run build -ws --if-present",
@@ -24,7 +25,6 @@
     "@storybook/addon-essentials": "^7.3.2",
     "@storybook/addon-interactions": "^7.3.2",
     "@storybook/addon-links": "^7.3.2",
-    "@storybook/react": "^7.3.2",
     "@storybook/react-vite": "^7.3.2",
     "@storybook/testing-library": "^0.2.0",
     "@types/node": "^20.9.0",
@@ -41,7 +41,7 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "husky": "^8.0.3",
-    "jsdom": "^22.1.0",
+    "jsdom": "^23.0.1",
     "lint-staged": "^15.0.2",
     "prettier": "^3.0.2",
     "react": "^18.2.0",
@@ -49,9 +49,9 @@
     "storybook": "^7.3.2",
     "ts-node": "^10.8.0",
     "typescript": "^5.1.6",
-    "vite": "^4.4.9",
-    "vite-dts": "github:jayalfredprufrock/vite-dts#vite4-with-dist",
-    "vitest": "^0.34.2",
+    "vite": "^5.0.10",
+    "vite-plugin-dts": "^3.7.1",
+    "vitest": "^1.1.0",
     "webpack": "^5.72.1"
   },
   "overrides": {

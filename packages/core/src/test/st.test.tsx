@@ -1,7 +1,7 @@
-import { st, StCreateOptions } from '../st';
+import { st } from '../';
+import { StCreateOptions } from '../st';
 import { renderAtBp, testAtBps } from './utils';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const types: [string, StCreateOptions<'h1'>][] = [
     ['primitive components', { el: 'h1' }],
     [
@@ -14,7 +14,7 @@ const types: [string, StCreateOptions<'h1'>][] = [
 describe('st', () => {
     types.forEach(([type, options]) => {
         describe(type, () => {
-            test('render with the correct tag', () => {
+            describe('render with the correct tag', async () => {
                 const Title = st()({
                     ...options,
                 });
@@ -24,7 +24,7 @@ describe('st', () => {
                 });
             });
 
-            test('render with the tag passed in "as" prop', () => {
+            describe('render with the tag passed in "as" prop', () => {
                 const Title = st()({
                     ...options,
                 });
@@ -34,7 +34,7 @@ describe('st', () => {
                 });
             });
 
-            test('render with single className string passed in options', () => {
+            describe('render with single className string passed in options', () => {
                 const Title = st()({
                     ...options,
                     className: 'title',
@@ -45,7 +45,7 @@ describe('st', () => {
                 });
             });
 
-            test('render with dynamic and string classNames passed in options', () => {
+            describe('render with dynamic and string classNames passed in options', () => {
                 const Title = st<{ size: string }>()({
                     ...options,
                     className: ['title', ({ size }) => size],
@@ -56,7 +56,7 @@ describe('st', () => {
                 });
             });
 
-            test('render attributes passed as defaults', () => {
+            describe('render attributes passed as defaults', () => {
                 const title = ['test-mobile', 'test-tablet', 'test-laptop', 'test-desktop'];
                 const Title = st()({
                     ...options,
@@ -68,7 +68,7 @@ describe('st', () => {
                 });
             });
 
-            test('render atributes passed in attrs prop', () => {
+            describe('render atributes passed in attrs prop', () => {
                 const title = ['test-mobile', 'test-tablet', 'test-laptop', 'test-desktop'];
                 const Title = st()({
                     ...options,
@@ -79,7 +79,7 @@ describe('st', () => {
                 });
             });
 
-            test('render atributes passed as forwarded prop', () => {
+            describe('render atributes passed as forwarded prop', () => {
                 const title = ['test-mobile', 'test-tablet', 'test-laptop', 'test-desktop'];
                 const Title = st()({
                     ...options,
@@ -91,7 +91,7 @@ describe('st', () => {
                 });
             });
 
-            test('render non-responsive attributes, following precedence rules', () => {
+            describe('render non-responsive attributes, following precedence rules', () => {
                 const Title = st()({
                     ...options,
                     defaultAttrs: {
@@ -106,7 +106,7 @@ describe('st', () => {
                 expect(el).toHaveAttribute('role', 'definition');
             });
 
-            test('render responsive attributes, following precedence rules', () => {
+            describe('render responsive attributes, following precedence rules', () => {
                 const Title = st()({
                     ...options,
                     defaultAttrs: { title: ['default-mobile', 'default-tablet', 'default-laptop', 'default-desktop'] },
@@ -121,7 +121,7 @@ describe('st', () => {
                 );
             });
 
-            test('process default props', () => {
+            describe('process default props', () => {
                 const Title = st<{ role: 'primary' | 'secondary' }>()({
                     ...options,
                     defaultProps: {
@@ -137,7 +137,7 @@ describe('st', () => {
                 });
             });
 
-            test('process props passed directly', () => {
+            describe('process props passed directly', () => {
                 const Title = st<{ role: 'primary' | 'secondary' }>()({
                     ...options,
                     defaultAttrs: {
@@ -150,7 +150,7 @@ describe('st', () => {
                 });
             });
 
-            test('process non-responsive props, following precendence rules', () => {
+            describe('process non-responsive props, following precendence rules', () => {
                 const Title = st<{ role: 'primary' | 'secondary' }>()({
                     ...options,
                     defaultProps: {
@@ -166,7 +166,7 @@ describe('st', () => {
                 });
             });
 
-            test('process responsive props, following precendence rules', () => {
+            describe('process responsive props, following precendence rules', () => {
                 const Title = st<{ role: 'primary' | 'secondary' }>()({
                     ...options,
                     defaultProps: {
@@ -182,7 +182,7 @@ describe('st', () => {
                 });
             });
 
-            test('render css passed in options', () => {
+            describe('render css passed in options', () => {
                 const Title = st()({
                     ...options,
                     css: {
@@ -199,7 +199,7 @@ describe('st', () => {
                 });
             });
 
-            test('render css passed in css prop', () => {
+            describe('render css passed in css prop', () => {
                 const Title = st()({
                     ...options,
                 });
@@ -212,7 +212,7 @@ describe('st', () => {
                 });
             });
 
-            test('render css passed as forwarded prop', () => {
+            describe('render css passed as forwarded prop', () => {
                 const Title = st()({
                     ...options,
                     forwardCss: ['color'],
@@ -225,7 +225,7 @@ describe('st', () => {
                 });
             });
 
-            test('render non-responsive css, following precedence rules', () => {
+            describe('render non-responsive css, following precedence rules', () => {
                 const Title = st()({
                     ...options,
                     css: {
@@ -247,7 +247,7 @@ describe('st', () => {
                 });
             });
 
-            test('render responsive css, following precedence rules', () => {
+            describe('render responsive css, following precedence rules', () => {
                 const Title = st()({
                     ...options,
                     css: { color: ['red', , 'blue'] },
@@ -261,7 +261,7 @@ describe('st', () => {
                 });
             });
 
-            test('render responsive css, following precedence rules', () => {
+            describe('render responsive css, following precedence rules', () => {
                 const Title = st()({
                     ...options,
                     css: { color: ['red', , 'blue'] },
@@ -275,7 +275,7 @@ describe('st', () => {
                 });
             });
 
-            test('can be extended with new default tag', () => {
+            describe('can be extended with new default tag', () => {
                 const Title = st()({
                     ...options,
                 });
@@ -289,7 +289,7 @@ describe('st', () => {
                 });
             });
 
-            test('can be extended with new default tag', () => {
+            describe('can be extended with new default tag', () => {
                 const Title = st()({
                     ...options,
                 });
@@ -303,7 +303,7 @@ describe('st', () => {
                 });
             });
 
-            test('can be extended with new default tag that can still be overridden', () => {
+            describe('can be extended with new default tag that can still be overridden', () => {
                 const Title = st()({
                     ...options,
                 });
@@ -317,7 +317,7 @@ describe('st', () => {
                 });
             });
 
-            test('can be extended with new default tag that can still be overridden', () => {
+            describe('can be extended with new default tag that can still be overridden', () => {
                 const Title = st()({
                     ...options,
                 });
@@ -331,7 +331,7 @@ describe('st', () => {
                 });
             });
 
-            test('can be extended with new default attributes', () => {
+            describe('can be extended with new default attributes', () => {
                 const Title = st()({
                     ...options,
                     defaultAttrs: {
@@ -351,7 +351,7 @@ describe('st', () => {
                 });
             });
 
-            test('can be extended with new default props', () => {
+            describe('can be extended with new default props', () => {
                 const Title = st<{ role: 'primary' | 'secondary' }>()({
                     ...options,
                     defaultProps: {
@@ -374,7 +374,7 @@ describe('st', () => {
                 });
             });
 
-            test('when extended, overwrite existing class name', () => {
+            describe('when extended, overwrite existing class name', () => {
                 const Title = st()({
                     ...options,
                     className: 'title',
@@ -390,7 +390,7 @@ describe('st', () => {
                 });
             });
 
-            test('when extended, follow precedence rules for attributes', () => {
+            describe('when extended, follow precedence rules for attributes', () => {
                 const Title = st()({
                     ...options,
                     defaultAttrs: {
@@ -410,7 +410,7 @@ describe('st', () => {
                 });
             });
 
-            test('when extended, follow precedence rules for props', () => {
+            describe('when extended, follow precedence rules for props', () => {
                 const Title = st<{ role: 'primary' | 'secondary' }>()({
                     el: 'h1',
                     defaultAttrs: {
@@ -432,7 +432,7 @@ describe('st', () => {
                 });
             });
 
-            test('when extended, follow precedence rules for css', () => {
+            describe('when extended, follow precedence rules for css', () => {
                 const Title = st()({
                     ...options,
                     css: {

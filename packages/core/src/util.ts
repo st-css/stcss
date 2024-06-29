@@ -1,186 +1,156 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MaybeArray, Obj, StDynamicValue, StObj, StResponsiveObj, StResponsiveValue, StStyle } from './types';
+import { Reactive, reactive, ReactivelyParams } from '@reactively/core';
+import { CustomCss, MaybeArray, Obj, ResponsiveRuleMap, RuleValue, StaticStyle } from './types';
 
-export const resolveDynamicValue = <V, A>(value: StDynamicValue<V, A>, args: A): V | undefined => {
-    return typeof value === 'function' ? (value as any)(args) : value;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const responsiveEquals = (a: any, b: any): boolean => {
+    if (a === b) return true;
+
+    if (Array.isArray(a) && Array.isArray(b)) {
+        let length = a.length;
+        if (length !== b.length) return false;
+        while (length-- && a[length] === b[length]);
+        return length === -1;
+    }
+    return false;
 };
 
-export const objForEach = (obj: any, args: any | undefined, cb: (c: [string, any]) => void): void => {
-    if (obj === undefined) return;
-    if (typeof obj === 'function') return objForEach(obj(args), args, cb);
-    if (obj && typeof obj === 'object') {
-        Object.entries(obj).forEach(([key, val]) => {
-            if (typeof val === 'function') {
-                val = val(args);
-            }
-            cb([key, val]);
-        });
+export const expandResponsiveValue = (value: RuleValue[]): RuleValue[] | RuleValue => {
+    if (value.length === 4) return value;
+    if (value.length === 1) return value[0];
+
+    const expandedResponsiveValue: RuleValue[] = [];
+    for (let i = 0; i < 4; i++) {
+        expandedResponsiveValue[i] = value[i] === undefined ? expandedResponsiveValue[i - 1] ?? null : value[i];
     }
+    return expandedResponsiveValue;
 };
 
-export type Transformer = (prop: string, value: string) => Record<string, string> | string | undefined;
-
-export const transformValue = (prop: string, val: string, transformers: Transformer[], result: Record<string, string> = {}): Record<string, string> => {
-    let transformed = false;
-    for (const transformer of transformers) {
-        const r = transformer(prop, val);
-        if (r !== undefined) {
-            transformed = true;
-            if (r && typeof r === 'object') {
-                Object.entries(r).forEach(([tProp, tVal]) => {
-                    transformValue(
-                        tProp,
-                        tVal,
-                        transformers.filter((t) => t !== transformer),
-                        result,
-                    );
-                });
-                break;
-            } else {
-                result[prop] = r;
-            }
-        }
-    }
-
-    if (!transformed) {
-        result[prop] = val;
-    }
-
-    return result;
-};
-
-export const resolveStStyle = <A>(
-    style: StStyle<A> | undefined,
-    args?: A,
-    transformers?: Transformer[],
-    sel = '?',
-    result: Record<string, string | string[]> = {},
-): Record<string, MaybeArray<string | number>> => {
-    if (style) {
-        objForEach(style, args, ([key, val]) => {
-            if (typeof val === 'object') {
-                if (key === '&') {
-                    const nestedSel = val[0].split(',');
-                    return nestedSel.forEach((ns: string) => {
-                        let newSel = ns.replaceAll('&', sel);
-                        if (!newSel.includes('?')) {
-                            newSel = '? ' + newSel;
-                        }
-                        resolveStStyle(val[1], args, transformers, newSel, result);
-                    });
-                } else if (!Array.isArray(val)) {
-                    return resolveStStyle(val, args, transformers, sel + key, result);
-                }
-            }
-            if (transformers) {
-                let transformedValue: Record<string, string | string[]>;
-                if (Array.isArray(val)) {
-                    const transformedValues = val.map((v) => transformValue(key, v, transformers));
-                    transformedValue = transformedValues.reduce(
-                        (obj, v) => {
-                            Object.entries(v).forEach(([tProp, tVal]) => {
-                                if (!obj[tProp]) {
-                                    obj[tProp] = [];
-                                }
-                                obj[tProp].push(tVal);
-                            });
-                            return obj;
-                        },
-                        {} as Record<string, string[]>,
-                    );
-                } else {
-                    transformedValue = transformValue(key, val, transformers);
-                }
-                Object.entries(transformedValue).forEach(([tProp, tVal]) => {
-                    result[`${sel}|${tProp}`] = tVal;
-                });
-            } else {
-                result[`${sel}|${key}`] = val;
-            }
-        });
-    }
-    return result;
-};
-
-export function resolveStObj<O extends Obj, A extends Obj>(obj: StObj<O, A> | StResponsiveObj<O> | undefined, bpIndex: number, args: A = {} as any): O {
-    const result: Record<string, unknown> = {};
-    objForEach(obj, args, ([prop, value]) => {
-        if (Array.isArray(value)) {
-            let v;
-            for (let i = bpIndex + 1; i--; i >= 0) {
-                if (value[i] !== undefined) {
-                    v = value[i];
-                    break;
-                }
-            }
-            if (v !== null && v !== undefined) {
-                result[prop] = v;
-            }
-        } else {
-            result[prop] = value && typeof value === 'object' ? resolveStObj(value, bpIndex, args) : value;
-        }
-    });
-    return result as O;
-}
-
-export const mergeStObjs = <O extends Obj, A extends Obj>(bpIndex: number, objs: (StObj<O, A> | undefined)[], args: A = {} as any): O => {
-    const mergedObj: Obj = {};
-    for (const obj of objs) {
-        Object.assign(mergedObj, resolveStObj(obj, bpIndex, args));
-    }
-    return mergedObj as O;
-};
-
-export const resolveResponsiveValue = <V>(val: StResponsiveValue<V>, bpIndex: number): V | null | undefined => {
+export const resolveResponsiveValueAtBp = <V>(val: MaybeArray<V> | null, bp: number, defaultValue: MaybeArray<V> | null = null): V | null => {
     if (!Array.isArray(val)) return val;
-    for (let i = bpIndex; i >= 0; i--) {
+    for (let i = bp; i >= 0; i--) {
         if (val[i] !== undefined) {
-            return val[i];
+            return val[i] ?? resolveResponsiveValueAtBp(defaultValue, bp);
         }
     }
     return null;
 };
 
-export const mergeResponsiveObjs = (objs: StResponsiveObj<any>[], bpCount = 4): StResponsiveObj<any> | undefined => {
-    const result: StResponsiveObj<any> = {};
-    objs.forEach((obj) => {
-        Object.entries(obj || {}).forEach(([key, val]) => {
-            const prevVal = result[key];
-            if (Array.isArray(val)) {
-                result[key] = [];
-                for (let i = 0; i < bpCount; i++) {
-                    result[key][i] = resolveResponsiveValue(val, i);
-                    if (result[key][i] === null) {
-                        result[key][i] = resolveResponsiveValue(prevVal, i);
-                    }
-                }
-                if ((result[key] as string[]).every((v, _, arr) => v === arr[0])) {
-                    if (result[key][0] === null || result[key][0] === undefined) {
-                        delete result[key];
-                    } else {
-                        result[key] = result[key][0];
-                    }
-                }
-            } else if (val !== undefined && val !== null) {
-                result[key] = val;
+export const styleIsStatic = (style: Obj): boolean => {
+    for (const cssProp in style) {
+        const val = style[cssProp];
+        if (typeof val === 'function') return false;
+        if (val && typeof val === 'object' && !Array.isArray(val) && !styleIsStatic(val as Obj)) {
+            return false;
+        }
+    }
+    return true;
+};
+
+export const mergeRuleMaps = (ruleMaps: ResponsiveRuleMap[] = []): ResponsiveRuleMap => {
+    const ruleMapCount = ruleMaps.length;
+    const mergedRuleMap = new Map(ruleMaps[ruleMapCount - 1] ?? []);
+    for (let i = ruleMapCount - 1; i >= 0; i--) {
+        if (!ruleMaps[i]?.size) continue;
+
+        ruleMaps[i]?.forEach((value, rule) => {
+            const existingRuleValue = mergedRuleMap.get(rule);
+
+            // if we haven't seen this rule before all we
+            // need to do is set it
+            if (existingRuleValue === undefined) {
+                mergedRuleMap.set(rule, value);
             }
+
+            // if we already have a non-responsive version of this rule
+            // then nothing to do, since it always takes precedence
+            if (!Array.isArray(existingRuleValue)) return;
+
+            // at this point, we have an existing rule that is responsive so
+            // we need to merge them to account for null values, which indicates
+            // a value with less precedence should be carried over
+
+            // replace any existing null values with the next value in the chain
+            mergedRuleMap.set(
+                rule,
+                existingRuleValue.map((existingValueAtBp, bp) => {
+                    if (existingValueAtBp !== null) return existingValueAtBp;
+                    return Array.isArray(value) ? value[bp] : value;
+                }),
+            );
         });
+    }
+    return mergedRuleMap;
+};
+
+export interface BuildRuleMapOptions {
+    props?: Obj;
+    attrs?: Obj;
+    bp?: number;
+    customCss?: CustomCss;
+    //transformers?: any[];
+}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const buildRuleMap = (stylesOrFunc: any, options?: BuildRuleMapOptions, sel = '?', result: ResponsiveRuleMap = new Map()): ResponsiveRuleMap => {
+    const { customCss = {}, ...optionsWithoutCustomCss } = options ?? {};
+    const { props, attrs, bp } = optionsWithoutCustomCss;
+    const styles = typeof stylesOrFunc === 'function' ? stylesOrFunc(props, { attrs }) : stylesOrFunc;
+    Object.entries(styles ?? {}).forEach(([cssPropOrSel, valueOrFunc]) => {
+        const value = typeof valueOrFunc === 'function' ? valueOrFunc(props, { attrs }) : valueOrFunc;
+        if (value !== undefined) {
+            if (typeof value === 'object' && !Array.isArray(value)) {
+                const expandedSels = cssPropOrSel.split(',');
+                return expandedSels.forEach((expandedSel) => {
+                    const newSel = expandedSel.replace('&', sel).trim();
+                    buildRuleMap(value, options, newSel, result);
+                });
+            }
+
+            const resolvedValue = bp === undefined ? (Array.isArray(value) ? expandResponsiveValue(value) : value) : resolveResponsiveValueAtBp(value, bp);
+
+            if (resolvedValue !== null) {
+                const transformCustom = customCss[cssPropOrSel];
+                if (transformCustom) {
+                    let transformedStyle: StaticStyle;
+                    if (Array.isArray(resolvedValue)) {
+                        transformedStyle = resolvedValue.reduce((style, val, _bp) => {
+                            Object.entries(transformCustom(val)).forEach(([tProp, tVal]) => {
+                                if (style[tProp] === undefined) {
+                                    style[tProp] = [];
+                                }
+                                style[tProp].push(tVal);
+                            });
+                            return style;
+                        }, {});
+                    } else {
+                        transformedStyle = transformCustom(resolvedValue);
+                    }
+                    buildRuleMap(transformedStyle, optionsWithoutCustomCss, sel, result);
+                } else {
+                    result.set(`${sel}|${cssPropOrSel}`, resolvedValue);
+                }
+            }
+        }
     });
     return result;
 };
 
-/*
-export const variant =
-    <P, K extends keyof P>(
-        prop: K,
-        styles: Exclude<P[K], undefined> extends string
-            ? Partial<Record<Exclude<P[K], undefined>, StStyles<P>>>
-            : never,
-        defaultValue?: Exclude<P[K], undefined>
-    ): StDynamicStyles<P> =>
-    (props: P): StStyles<P> | undefined => {
-        const val = props[prop] || defaultValue;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return val === undefined ? undefined : (styles as any)[val];
-    };
-*/
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const setSignalValue = (signalMap: Map<string, Reactive<any>>, name: string, value: any, signalParams?: ReactivelyParams): void => {
+    let $signal = signalMap.get(name);
+    if ($signal) {
+        $signal.set(value);
+    } else {
+        $signal = reactive(value, signalParams);
+        signalMap.set(name, $signal);
+    }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getSignalValue = (signalMap: Map<string, Reactive<any>>, name: string, defaultValue?: any, signalParams?: ReactivelyParams): any => {
+    let $signal = signalMap.get(name);
+    if (!$signal) {
+        $signal = reactive(defaultValue, signalParams);
+        signalMap.set(name, $signal);
+    }
+    return $signal.get();
+};

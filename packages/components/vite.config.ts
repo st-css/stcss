@@ -1,6 +1,8 @@
 import { defineConfig } from 'vitest/config'
 import react from "@vitejs/plugin-react";
-import dts from 'vite-dts'
+import stcss from '@st-css/rollup-plugin';
+
+//import dts from 'vite-dts'
 
 export default defineConfig({
   build: {
@@ -20,11 +22,7 @@ export default defineConfig({
     },
     sourcemap: true,
     target: 'esnext',
-    minify: true,
+    minify: false,
   },
-  plugins: [react(), dts()],
-  test: {
-    globals: true,
-    environment: 'jsdom'
-  }
+  plugins: [react(), stcss()]
 })

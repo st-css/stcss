@@ -1,13 +1,12 @@
-import { StConfig } from './context';
-import { StResponsiveObj } from './types';
+import { CanonizeConfig, CustomCss, Obj } from './types';
 
-export class StyleManager {
+export class StyleManager<MQ extends Obj<string>, CC extends CustomCss> {
     protected readonly cache: Map<string, string> = new Map();
     protected readonly rules: Map<string, string[]> = new Map();
     protected readonly sheets: Map<string, CSSStyleSheet | CSSMediaRule> = new Map();
     protected readonly styleTag?: HTMLStyleElement;
 
-    constructor(readonly config: StConfig) {
+    constructor(readonly config: CanonizeConfig<MQ, CC>) {
         Object.entries({ __global: '', ...this.config.mediaQueries }).forEach(([bp, mq]) => {
             this.rules.set(bp, []);
             if (typeof document !== 'undefined') {
@@ -23,22 +22,6 @@ export class StyleManager {
         });
     }
 
-    getClassesForStyle(style: StResponsiveObj<Record<string, string>> = {}): string[] {
-        const classes: string[] = [];
-        Object.entries(style).forEach(([rule, val]) => {
-            if (Array.isArray(val)) {
-                for (let i = 0; i < val.length; i++) {
-                    const bp = this.config.breakpoints[i];
-                    classes.push(this.getClassForRule(rule, val[i] as string, bp));
-                }
-            } else {
-                classes.push(this.getClassForRule(rule, val, '__global'));
-            }
-        });
-
-        return classes;
-    }
-
     getClassForRule(stRule: string, val: string, bp: string): string {
         const key = `${stRule}|${val}|${bp}`;
         const cachedClass = this.cache.get(key);
@@ -49,7 +32,7 @@ export class StyleManager {
 
         const [selector, prop] = stRule.split('|');
 
-        const rule = `${selector.replaceAll('?', `.${className}`)}{${prop.replace(/[A-Z]/g, '-$&').toLowerCase()}:${val}}`;
+        const rule = `${selector?.replaceAll('?', `.${className}`)}{${prop?.replace(/[A-Z]/g, '-$&').toLowerCase()}:${val}}`;
         this.rules.get(bp)?.push(rule);
 
         const sheet = this.sheets.get(bp);
